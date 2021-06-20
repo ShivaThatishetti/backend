@@ -1,0 +1,12 @@
+#div1
+{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    color:rgb(2, 2, 54);
+    font-family: 'Itim', cursive;
+    /*background-image: url("./undraw_Growth_analytics_re_pyxf.svg");*/
+    background-size: 200px;
+    background-repeat: no-repeat;
+    background-position: center;
+}

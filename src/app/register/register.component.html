@@ -1,0 +1,54 @@
+
+   
+      <div id="main" class=" w-75 mt-1 mx-auto  d-flex flex-wrap flex-column">
+        <!--main content-->
+         <div>
+             <h1 class="text-center display-5 rounded p-2" id="text">Sign Up / Register</h1>
+             <!--form page-->
+             <form (ngSubmit)="onSubmit()">
+                <!--user name-->
+                <div class="mt-4 row">
+                   <div class="col-4">
+                     <label for="un" class="text-dark float-end"><h4>Username</h4></label></div>
+                   <div class="col-8">
+                     <input type="text" autocomplete="off" name="Username" id="un" class="form-control float-start w-50 "[(ngModel)]="reg.username">
+                  </div>
+               </div>
+               <!-- password -->
+               <div class="mt-4 row">
+                  <div class="col-4">
+                    <label for="ps" class="text-dark float-end"><h4>Password</h4></label></div>
+                  <div class="col-8">
+                    <input type="password" name="password" id="ps" class="form-control float-start w-50 " [(ngModel)]="reg.password">
+                 </div>
+              </div>
+               <!--Date of birth-->
+                <div class="mt-4 row">
+                  <div class="col-4">
+                    <label for="dob" class="text-dark float-end"><h4>Date of Birth</h4></label></div>
+                  <div class="col-8">
+                    <input type="date" autocomplete="off" name="dob" id="dob" class="form-control float-start w-50 " [(ngModel)]="reg.DOB">
+                 </div>
+              </div>
+                 <!--Contact-->
+                <div class="mt-4 row">
+                  <div class="col-4">
+                    <label for="cnt" class="text-dark float-end"><h4>Contact</h4></label></div>
+                  <div class="col-8">
+                    <input type="text" autocomplete="off" name="Contact" id="cnt" class="form-control float-start w-50 " [(ngModel)]="reg.contact">
+                 </div>
+              </div>
+                <!--Email-->
+                <div class="mt-4 row">
+                  <div class="col-4">
+                    <label for="em" class="text-dark float-end"><h4>E-mail</h4></label></div>
+                  <div class="col-8">
+                    <input type="email" autocomplete="off" name="email" id="em" class="form-control float-start w-50 " [(ngModel)]="reg.gmail">
+                 </div>
+              </div>
+               <!--submit Button-->
+               <button type="submit" class="btn d-block mx-auto mt-3 btn-success">Register</button>
+            </form>
+         </div>
+      </div>
+  

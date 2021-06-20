@@ -1,0 +1,47 @@
+<div style="margin-bottom:300px">
+    <div id="main" class=" w-75 mt-1 mx-auto  d-flex flex-wrap flex-column">
+       <!--main content-->
+        <div>
+            <h1 class="text-center display-5  rounded" id="text">Enters Login Details</h1>
+            <!--form page-->
+            <form class="mt-5" #refFrm='ngForm' (ngSubmit)='refFrm.form.valid && onLogin()'>
+               <!--user name-->
+               <div class="mt-4 row">
+                  <div class="col-4">
+                    <label for="un" class="text-dark float-end"><h4>Username</h4></label></div>
+                  <div class="col-8">
+                    <input required minlength="5" #refUn='ngModel' type="text"  autocomplete="off" name="username" id="un" class="form-control float-start w-50 " [(ngModel)]="user.username">
+                   </div>
+               </div>
+               <!-- Username validation -->
+               <div class="row">
+                <div class="col-4"></div>
+                <div class="col-8">
+                 <p *ngIf='(refFrm.submitted || refUn.touched)&&refUn.errors?.required' class="text-danger">* User name is Required</p>
+                 <p *ngIf='(refFrm.submitted || refUn.touched)&&refUn.errors?.minlength' class="text-danger">* Minimum length should be 5</p>
+                </div>
+
+               </div>
+              <!-- password -->
+              <div class="mt-4 row">
+                 <div class="col-4">
+                   <label for="ps" class="text-dark float-end"><h4>Password</h4></label></div>
+                 <div class="col-8">
+                   <input  required pattern='.*' #refPs='ngModel' type="password"  autocomplete="off" name="password" id="ps" class="form-control float-start w-50 " [(ngModel)]="user.password">
+                </div>
+              </div>
+               <!-- password validation -->
+              <div class="row">
+                <div class="col-4"></div>
+                <div class="col-8">
+                 <p *ngIf='(refFrm.submitted || refPs.touched)&&refPs.errors?.required' class="text-danger">* Password is Required</p>
+                 <p *ngIf='(refFrm.submitted || refPs.touched)&&refPs.errors?.pattern' class="text-danger">* Pattern not matched</p>
+                </div>
+
+               </div>
+              <!--submit Button-->
+              <button type="submit" class="btn d-block mx-auto mt-3 btn-success">Login</button>
+           </form>
+        </div>
+     </div>
+</div>  
