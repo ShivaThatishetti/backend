@@ -3,41 +3,43 @@ const exp=require("express")
 const userApi=exp.Router()
 //body parsing middle ware
 userApi.use(exp.json())
+//import env
+require("dotenv").config
 //bcryptjs for hashing pswrds
 const bcrypt=require("bcryptjs")
 //json web token
 const token=require("jsonwebtoken")
 //express error handler
 const expressErrorHandler=require("express-async-handler")
-//import MongoClient
-const mc=require("mongodb").MongoClient
-const { Router } = require("express")
-//connection string
-const databaseUrl="mongodb+srv://shiva123:shiva123@shiva123.jlecp.mongodb.net/myFirstDB?retryWrites=true&w=majority"
 //middleware 
 const checkToken=require("./middlewares/verifyToken")
-
-
-let databaseObj
-let collectionOb
-//connect to database
-mc.connect(databaseUrl,{useNewUrlParser:true,useUnifiedTopology:true},(err,client)=>{
-    if(err)
-    {
-        console.log("Error in db connection users:",err)
-    }
-    else
-    {
-        //database object
-        databaseObj=client.db("myFirstDB")
-        //create user collection obj
-        collectionObj=databaseObj.collection("My_first_collection")
-        console.log("Connected to database myFirstDB users")
+//import cloudinary modules
+const cloudinary=require("cloudinary").v2
+const multer1=require("multer")
+const {CloudinaryStorage}=require("multer-storage-cloudinary")
+//configure cloudinary
+cloudinary.config({
+    cloud_name:"dzaifpaib",
+    api_key:"173283952955522",
+    api_secret:"yWeFctpjNBPUUErFuv1O80nCsk4"
+})
+//configure multer-storage-cloudinary for users
+const usersStorage=new CloudinaryStorage({
+    cloudinary:cloudinary,
+    params:async(req,file)=>{
+        return {
+        folder:"Users Profiles",
+        public_id:file.fieldname+'-'+Date.now()
+        }
     }
 })
+//configure multer
+const multerObj=multer1({storage:usersStorage})
+
 
 //GET http://localhost:2000/users/getusers
 userApi.get("/getusers", expressErrorHandler(async(req,res)=>{
+    let collectionObj=req.app.get("userCollectionObj")
       let userList= await collectionObj.find().toArray()
       if(userList.length===0)
       {
@@ -51,6 +53,7 @@ userApi.get("/getusers", expressErrorHandler(async(req,res)=>{
 
 //GET http://localhost:2000/users/getusers/Shiva
 userApi.get("/getusers/:username",expressErrorHandler(async(req,res)=>{
+    let collectionObj=req.app.get("userCollectionObj")
     let un=req.params.username
     let userObj=await collectionObj.findOne({username:un})
     if(userObj===null)
@@ -64,8 +67,10 @@ userApi.get("/getusers/:username",expressErrorHandler(async(req,res)=>{
 }))
 
 //POST http://localhost:2000/users/createuser 
-userApi.post("/createuser",expressErrorHandler(async(req,res)=>{
-    let newUser=req.body
+userApi.post("/createuser",multerObj.single('image'),expressErrorHandler(async(req,res)=>{
+    let collectionObj=req.app.get("userCollectionObj")
+    //userObj from formDataObj send by register user
+    let newUser=JSON.parse(req.body.userObj)
     let userObj=await collectionObj.findOne({username:newUser.username})
     if(userObj!==null)
     {res.send({message:"User already exiest"})}
@@ -74,6 +79,9 @@ userApi.post("/createuser",expressErrorHandler(async(req,res)=>{
         //hash pswrd
         let hashedPswrd=await bcrypt.hash(newUser.password,7)
         newUser.password=hashedPswrd
+        //add image path ti daatabase obj
+        newUser.profileImage=req.file.path
+        delete newUser.photo
         await collectionObj.insertOne(newUser)
         res.send({message:"user successfully created "})
     }
@@ -82,6 +90,7 @@ userApi.post("/createuser",expressErrorHandler(async(req,res)=>{
 
 //PUT http://localhost:2000/users/updateuser
 userApi.put("/updateuser/:username",expressErrorHandler(async(req,res,next)=>{
+    let collectionObj=req.app.get("userCollectionObj")
     let updateUser=req.body
     //update
     let userObj=await collectionObj.findOne({username:updateUser.username})
@@ -98,6 +107,7 @@ userApi.put("/updateuser/:username",expressErrorHandler(async(req,res,next)=>{
 
 //DELETE http://localhost:2000/users/deleteusers/10
 userApi.delete("/deleteusers/:userName",expressErrorHandler(async(req,res)=>{
+    let collectionObj=req.app.get("userCollectionObj")
     let uName=req.params.userName
     let user=await collectionObj.findOne({username:uName}) 
     if(user===null)
@@ -112,7 +122,8 @@ userApi.delete("/deleteusers/:userName",expressErrorHandler(async(req,res)=>{
 }))
 
 //user login
-userApi.post('/login',expressErrorHandler(async(req,res)=>{
+userApi.post('/loginuser',expressErrorHandler(async(req,res)=>{
+    let collectionObj=req.app.get("userCollectionObj")
     let credientials=req.body
     let user=await collectionObj.findOne({username:credientials.username})
     if(user===null)
@@ -129,13 +140,68 @@ userApi.post('/login',expressErrorHandler(async(req,res)=>{
         else
         {
             //create token
-            let signedToken= await token.sign({username:credientials.username},"abcdef",{expiresIn:10})
+            let signedToken= await token.sign({username:credientials.username},process.env.SECRET,{expiresIn:10})
             //send token to client
             res.send({message:"Login success",username:credientials.username,token:signedToken,userObj:user})
         }
     }
 }))
+//admin login
+userApi.post('/loginadmin',expressErrorHandler(async(req,res)=>{
+    let collectionObj=req.app.get("adminCollectionObj")
+    let credientials=req.body
+    let user=await collectionObj.findOne({username:credientials.username})
+    if(user===null)
+    {
+        res.send({message:"admin not found"})
+    }
+    else
+    {
+        if(user.password!==credientials.password)
+        {
+            res.send({message:"Invalid password"})
+        }
+        else
+        {
+            res.send({message:"Login success",username:credientials.username,userObj:user})
+        }
+    }
+}))
 
+//add to cart
+userApi.post("/addtocart",expressErrorHandler(async(req,res)=>{
+    let collectionObj=req.app.get("usercartCollectionObj")
+    let newProObj=req.body
+    //find usercart collection
+    let userCartObj=await collectionObj.findOne({username:newProObj.username})
+    //if user cart obj is not exiest
+    if(userCartObj===null)
+    {
+        let products=[]
+        products.push(newProObj.product)
+        let newUserCartobj={username:newProObj.username,products}
+        //insert to backend
+        await collectionObj.insertOne(newUserCartobj)
+        res.send({message:"Product added to cart"})
+    }
+    else
+    {
+        //push productObj to products array then update document
+        userCartObj.products.push(newProObj.product)
+        await collectionObj.updateOne({username:newProObj.username},{$set:{...userCartObj}})
+        res.send({message:"New product added"})
+    }
+}))
+
+//get products from user cart
+userApi.get("/getproducts/:username",expressErrorHandler(async(req,res)=>{
+    let collectionObj=req.app.get("usercartCollectionObj")
+    let un=req.params.username
+    let userObj=await collectionObj.findOne({username:un})
+    
+    if(userObj===null){res.send({message:"User cart is empty"})}
+    else{let products=userObj.products; res.send(products)}
+}))
 
 //dummy Router
 userApi.get("/testing",checkToken,(req,res)=>{

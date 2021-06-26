@@ -1,7 +1,14 @@
-<h3 class="text-end text-primary">Welcome,<span class="text-warning">{{userObj.username}}</span></h3>
-<div class="text-center">
-    <h2>Email:{{userObj.gmail}}</h2>
-    <h2>Date Of Birth:{{userObj.DOB}}</h2>
-    <button type="button" class="btn btn-success" (click)="getPrivateData()">get private data</button>
-
-</div>
+<h4 class="text-end text-dark">
+    Welcome 
+    <span style="color:brown">
+        {{userObj.username}}
+        <img src={{userObj.profileImage}} width="60px" alt="">
+        <h6>{{userObj.gmail}}</h6>
+        <button class="btn m-3"  routerLink="viewProducts" routerLinkActive='active'>Products</button>
+        <button class="btn m-3 " routerLink="viewCart" routerLinkActive='active'><i class="fas fa-shopping-cart"></i></button>
+    </span>
+</h4>
+      
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>

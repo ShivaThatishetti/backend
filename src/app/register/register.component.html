@@ -1,6 +1,6 @@
 
    
-      <div id="main" class=" w-75 mt-1 mx-auto  d-flex flex-wrap flex-column">
+      <div id="main" class=" w-75 mt-1 mx-auto  d-flex flex-wrap flex-column" style="margin-bottom:500px">
         <!--main content-->
          <div>
              <h1 class="text-center display-5 rounded p-2" id="text">Sign Up / Register</h1>
@@ -46,9 +46,20 @@
                     <input type="email" autocomplete="off" name="email" id="em" class="form-control float-start w-50 " [(ngModel)]="reg.gmail">
                  </div>
               </div>
+              <!-- File -->
+              <div class="mt-4 row">
+                <div class="col-4">
+                  <label for="em" class="text-dark float-end"><h4>Image</h4></label></div>
+                <div class="col-8">
+                  <input type="file" autocomplete="off" name="image" id="im" class="form-control float-start w-50 " (change)="selectFile($event)" [(ngModel)]="image">
+               </div>
+              </div>
+              <!-- image preview -->
+              <img [src]="imageUrl" height="200px" class="float-center"  alt="">
+
                <!--submit Button-->
                <button type="submit" class="btn d-block mx-auto mt-3 btn-success">Register</button>
-            </form>
+             </form>
          </div>
       </div>
   

@@ -14,7 +14,7 @@ export class UserProfileComponent implements OnInit {
     //get user data from local storage
 this.userObj=JSON.parse(localStorage.getItem("userObj"))
   }
-
+cart=[]
   getPrivateData()
   {
     console.log("This is Private Data")
@@ -27,6 +27,13 @@ this.userObj=JSON.parse(localStorage.getItem("userObj"))
         alert(err)
       }
     )
+  }
+  cartItems()
+  {
+    if(this.cart.length===0)
+    console.log("Cart is empty")
+    else
+    console.log(this.cart)
   }
 
 }

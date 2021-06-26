@@ -1,0 +1,15 @@
+<table *ngIf="cartStatus===true" class="table mx-auto mt-5" style="margin-bottom: 300px;">
+    <thead>
+        <th>Product Name</th>
+        <th>Cost</th>
+        <th>Image</th>
+    </thead>
+    <tbody>
+        <tr *ngFor=" let obj of products">
+            <td>{{obj.productname}}</td>
+            <td>{{obj.cost}}</td>
+            <td><img src={{obj.image}} width="100px" alt=""> </td>
+        </tr>
+    </tbody>
+</table>
+<h2 *ngIf="cartStatus!==true " class="text-center text-warning">Your cart is Empty</h2>

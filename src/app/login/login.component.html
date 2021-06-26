@@ -4,8 +4,23 @@
         <div>
             <h1 class="text-center display-5  rounded" id="text">Enters Login Details</h1>
             <!--form page-->
-            <form class="mt-5" #refFrm='ngForm' (ngSubmit)='refFrm.form.valid && onLogin()'>
-               <!--user name-->
+            <form class="mt-5" #refFrm='ngForm' (ngSubmit)='refFrm.form.valid && onLogin(refFrm.value)'>
+                <!-- type of user -->
+            <div class="d-flex justify-content-center">
+              <div class="form-check form-check-inline form-switch">
+              <input class="form-check-input" type="radio" name="type" id="admin" ngModel value="admin">
+              <label class="form-check-label" for="admin">
+                  Admin
+              </label>
+              </div>
+              <div class="form-check form-check-inline form-switch">
+              <input class="form-check-input" type="radio" name="type" id="user" ngModel value="user">
+              <label class="form-check-label" for="user">
+                  User
+              </label>
+              </div>
+            </div>
+              <!--user name-->
                <div class="mt-4 row">
                   <div class="col-4">
                     <label for="un" class="text-dark float-end"><h4>Username</h4></label></div>

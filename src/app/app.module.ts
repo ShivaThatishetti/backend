@@ -13,6 +13,8 @@ import { UsersComponent } from './users/users.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AuthorizationService } from './authorization.service';
+import { SharedModule } from './shared/shared.module';
+import { UsercartComponent } from './usercart/usercart.component';
 
 @NgModule({
   declarations: [
@@ -24,13 +26,15 @@ import { AuthorizationService } from './authorization.service';
     RegisterComponent,
     UsersComponent,
     PagenotfoundComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    UsercartComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SharedModule
   ],
   providers: [{
     provide:HTTP_INTERCEPTORS,

@@ -12,7 +12,7 @@ const checkToken=(req,res,next)=>{
     else
     {
          token=tokenWithBearer.split(" ")[1]
-        jwt.verify(token,"abcdef",(err,decoded)=>{
+        jwt.verify(token,process.env.SECRET,(err,decoded)=>{
             if(err)
             {
                 return res.send({message:"Session expired login again to continue"})

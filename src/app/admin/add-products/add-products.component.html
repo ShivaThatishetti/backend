@@ -1,0 +1,67 @@
+
+   
+      <div id="main" class=" w-75 mt-1 mx-auto  d-flex flex-wrap flex-column" style="margin-bottom:500px">
+        <!--main content-->
+         <div>
+             <h1 class="text-center display-5 rounded p-2" id="text">Add Products</h1>
+             <!--form page-->
+             <form (ngSubmit)="onSubmit()">
+                <!--product name-->
+                <div class="mt-4 row">
+                   <div class="col-4">
+                     <label for="un" class="text-dark float-end"><h4>Product name</h4></label></div>
+                   <div class="col-8">
+                     <input type="text" autocomplete="off" name="ProductTitle" id="un" class="form-control float-start w-50 "[(ngModel)]="pro.productname">
+                  </div>
+               </div>
+               <!-- cost -->
+               <div class="mt-4 row">
+                  <div class="col-4">
+                    <label for="ps" class="text-dark float-end"><h4>Cost</h4></label></div>
+                  <div class="col-8">
+                    <input type="text" name="cost" id="ps" class="form-control float-start w-50 " [(ngModel)]="pro.cost">
+                 </div>
+              </div>
+               <!--EngineCapacity-->
+                <div class="mt-4 row">
+                  <div class="col-4">
+                    <label for="dob" class="text-dark float-end"><h4>EngineCapacity</h4></label></div>
+                  <div class="col-8">
+                    <input type="text" autocomplete="off" name="EngineCapacity" id="dob" class="form-control float-start w-50 " [(ngModel)]="pro.EngineCapacity">
+                 </div>
+              </div>
+                 <!--Mileage-->
+                <div class="mt-4 row">
+                  <div class="col-4">
+                    <label for="cnt" class="text-dark float-end"><h4>Mileage</h4></label></div>
+                  <div class="col-8">
+                    <input type="text" autocomplete="off" name="Mileage" id="cnt" class="form-control float-start w-50 " [(ngModel)]="pro.Mileage">
+                 </div>
+              </div>
+                <!--KerbWeight-->
+                <div class="mt-4 row">
+                  <div class="col-4">
+                    <label for="em" class="text-dark float-end"><h4>KerbWeight</h4></label></div>
+                  <div class="col-8">
+                    <input type="email" autocomplete="off" name="KerbWeight" id="em" class="form-control float-start w-50 " [(ngModel)]="pro.KerbWeight">
+                 </div>
+              </div>
+              <!-- File -->
+              <div class="mt-4 row">
+                <div class="col-4">
+                  <label for="em" class="text-dark float-end"><h4>Image</h4></label></div>
+                <div class="col-8">
+                  <input type="file" autocomplete="off" name="image" id="im" class="form-control float-start w-50 " (change)="selectFile($event)" [(ngModel)]="image">
+               </div>
+              </div>
+              <!-- image preview -->
+              <div class="row text-center m-2">
+                <h6><img [src]="imageUrl" height="200px" class="float-center"  alt=""></h6>
+              </div>
+
+               <!--submit Button-->
+               <button type="submit" class="btn d-block mx-auto mt-3 btn-success">Add</button>
+             </form>
+         </div>
+      </div>
+  

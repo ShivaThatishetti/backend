@@ -1,0 +1,18 @@
+<div *ngIf="products.length!==0" class="row row-cols-1 row-cols-md-3 g-4" style="margin-bottom: 300px;">
+    <div class="col" *ngFor="let product of products; let ind=index">
+        <div class="card h-100 shadow-lg">
+            <img height="75%" src={{product.image}} class="card-img-top" alt="">
+            <div class="card-body">
+                <h5 class="card-title">{{product.productname}}</h5>
+                <h5 class="card-text">{{product.cost}}</h5>
+            </div>
+            
+            <h3 type="button" class="text-end  text-danger me-2" (click)="onDelete(product,ind)"><i class="fas fa-trash-alt" *ngIf="currentuser==='admin'"></i></h3>
+            <h2 class="text-end me-2"><button class="w-50 btn btn-success" *ngIf="currentuser!=='admin'" (click)="onProductSelected(product)"><i class="fas fa-plus text-white"></i> Add</button></h2>
+            
+        </div>
+    </div>
+</div>
+<div *ngIf="products.length===0" class="text-center text-warning">
+    <h2>No Products Found</h2>
+</div>
