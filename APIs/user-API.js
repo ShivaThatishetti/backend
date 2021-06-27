@@ -182,14 +182,18 @@ userApi.post("/addtocart",expressErrorHandler(async(req,res)=>{
         let newUserCartobj={username:newProObj.username,products}
         //insert to backend
         await collectionObj.insertOne(newUserCartobj)
-        res.send({message:"Product added to cart"})
+        let latestCartObj=await collectionObj.findOne({username:newProObj.username})
+        res.send({message:"Product added to cart",latestCartObj:latestCartObj})
     }
     else
     {
         //push productObj to products array then update document
         userCartObj.products.push(newProObj.product)
+        
         await collectionObj.updateOne({username:newProObj.username},{$set:{...userCartObj}})
-        res.send({message:"New product added"})
+        //await collectionObj.insertOne(newUserCartobj)
+        let latestCartObj=await collectionObj.findOne({username:newProObj.username})
+        res.send({message:"New product added",latestCartObj:latestCartObj})
     }
 }))
 
@@ -199,8 +203,24 @@ userApi.get("/getproducts/:username",expressErrorHandler(async(req,res)=>{
     let un=req.params.username
     let userObj=await collectionObj.findOne({username:un})
     
-    if(userObj===null){res.send({message:"User cart is empty"})}
+    if(userObj===null)
+    {
+        res.send({message:"User cart is empty"})
+    }
     else{let products=userObj.products; res.send(products)}
+}))
+//selete product from user cart
+userApi.delete("/deleteproducts/:username",expressErrorHandler(async(req,res)=>{
+    let collectionObj=req.app.get("usercartCollectionObj")
+    let un=req.params.username
+    let index=req.body
+    let userObj=await collectionObj.findOne({username:un})
+    let products=userObj.products
+    products.splice(index,1)
+    let updateUserCartobj={username:un,products}
+    await collectionObj.updateOne({username:un},{$set:{...updateUserCartobj}})
+    res.send({message:"Product Successfully Removed",products:products})
+    
 }))
 
 //dummy Router

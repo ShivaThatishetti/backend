@@ -5,8 +5,10 @@
         <img src={{userObj.profileImage}} width="60px" alt="">
         <h6>{{userObj.gmail}}</h6>
         <button class="btn m-3"  routerLink="viewProducts" routerLinkActive='active'>Products</button>
-        <button class="btn m-3 " routerLink="viewCart" routerLinkActive='active'><i class="fas fa-shopping-cart"></i></button>
-    </span>
+        <button class="btn m-3 " routerLink="viewCart" routerLinkActive='active'><i class="fas fa-shopping-cart"></i>{{count}}</button>
+        <h3 type="button" routerLink="viewCart" routerLinkActive='active' class="text-end  text-secondary me-2 d-inline" ><i class="fas fa-shopping-cart" ></i>{{count}}</h3>
+            
+      </span>
 </h4>
       
   <div class="container">

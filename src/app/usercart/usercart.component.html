@@ -3,12 +3,14 @@
         <th>Product Name</th>
         <th>Cost</th>
         <th>Image</th>
+        <th>   </th>
     </thead>
     <tbody>
-        <tr *ngFor=" let obj of products">
+        <tr *ngFor=" let obj of products; let ind=index">
             <td>{{obj.productname}}</td>
             <td>{{obj.cost}}</td>
             <td><img src={{obj.image}} width="100px" alt=""> </td>
+            <td><h3 type="button" class="text-danger me-2" (click)="onDelete(obj,ind)"><i class="fas fa-trash-alt"></i></h3></td>
         </tr>
     </tbody>
 </table>

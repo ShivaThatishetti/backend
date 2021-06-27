@@ -16,7 +16,6 @@ app.use(exp.static(path1.join(__dirname,'./dist/backend-Angular')))
 
 //import MongoClient
 const mc=require("mongodb").MongoClient
-const { Router } = require("express")
 //connection string
 const databaseUrl=process.env.DATABASE_URL
 
@@ -63,5 +62,5 @@ app.use((err,req,res,next)=>{
 })
 
 //assign port
-port=process.env.PORT
+port=process.env.PORT ||8000;
 app.listen(port,()=>{console.log(`server listening on port ${port}`)})

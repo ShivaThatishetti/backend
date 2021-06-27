@@ -32,9 +32,12 @@ function()
   {
     let username=localStorage.getItem("username")
     let newProObj={username,product}
-    console.log(newProObj)
     this.us.sendProductToUserCart(newProObj).subscribe(
-      res=>{alert(res['message'])},
+      res=>
+      {
+        alert(res['message'])
+       this.us.updateDataObservable(res.latestCartObj)
+      },
       err=>{console.log("Error in adding to cart",err)
     alert("Something went wrong")})
   }

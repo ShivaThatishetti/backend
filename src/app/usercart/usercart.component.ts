@@ -11,9 +11,22 @@ export class UsercartComponent implements OnInit {
   constructor(private us:UserService) { }
   products;
   cartStatus:boolean
+  function()
+  {
+    this.us.dataObservable.subscribe(
+      res=>{
+        if(res['message']==="User cart is empty"){this.cartStatus=false}
+        else{this.cartStatus=true;this.products=res;}
+      }
+      ,err=>{
+      console.log("Error in reading cart products",err)
+      alert("Something went wrong")
+    })
+  }
   ngOnInit(): void {
-     
-    let username=localStorage.getItem("username")
+    this.function()
+
+   /* let username=localStorage.getItem("username")
     this.us.getProductsFromCart(username).subscribe(
       res=>{
         if(res['message']==="User cart is empty"){this.cartStatus=false}
@@ -22,7 +35,23 @@ export class UsercartComponent implements OnInit {
       ,err=>{
       console.log("Error in reading cart products",err)
       alert("Something went wrong")
-    })
+    })*/
+  }
+
+  onDelete(product,ind)
+  {
+    let un=localStorage.getItem("username")
+    this.us.deleteProductFromUserCart(un,ind).subscribe(
+      res=>{
+        this.function()
+        this.products=res.products
+        alert(res.message)
+      },
+      err=>{
+        console.log("Error in deletion cart product",err)
+        alert("Something went wrong")
+      }
+    )
   }
 
 }
