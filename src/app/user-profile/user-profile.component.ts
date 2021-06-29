@@ -15,7 +15,7 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {
     //get user data from local storage
    this.userObj=JSON.parse(localStorage.getItem("userObj"))
-   //get user cart obj datta from api
+   //get user cart obj data from api
    
     this.us.getProductsFromCart(this.userObj.username).subscribe(
       res=>{

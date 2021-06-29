@@ -1,4 +1,4 @@
-<table *ngIf="cartStatus===true" class="table mx-auto mt-5" style="margin-bottom: 300px;">
+<table *ngIf="cartStatus" class="table mx-auto mt-5" style="margin-bottom: 300px;">
     <thead>
         <th>Product Name</th>
         <th>Cost</th>
@@ -14,4 +14,4 @@
         </tr>
     </tbody>
 </table>
-<h2 *ngIf="cartStatus!==true " class="text-center text-warning">Your cart is Empty</h2>
+<h2 *ngIf="!cartStatus" class="text-center text-warning">Your cart is Empty</h2>

@@ -36,7 +36,7 @@ function()
       res=>
       {
         alert(res['message'])
-       this.us.updateDataObservable(res.latestCartObj)
+       this.us.updateDataObservable(res.latestCartObj.products)
       },
       err=>{console.log("Error in adding to cart",err)
     alert("Something went wrong")})

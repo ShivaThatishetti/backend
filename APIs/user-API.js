@@ -209,7 +209,7 @@ userApi.get("/getproducts/:username",expressErrorHandler(async(req,res)=>{
     }
     else{let products=userObj.products; res.send(products)}
 }))
-//selete product from user cart
+//delete product from user cart
 userApi.delete("/deleteproducts/:username",expressErrorHandler(async(req,res)=>{
     let collectionObj=req.app.get("usercartCollectionObj")
     let un=req.params.username
@@ -219,7 +219,8 @@ userApi.delete("/deleteproducts/:username",expressErrorHandler(async(req,res)=>{
     products.splice(index,1)
     let updateUserCartobj={username:un,products}
     await collectionObj.updateOne({username:un},{$set:{...updateUserCartobj}})
-    res.send({message:"Product Successfully Removed",products:products})
+    latestUserObj=await collectionObj.findOne({username:un})
+    res.send({message:"Product Successfully Removed",products:products,latestUserObj:latestUserObj})
     
 }))
 
